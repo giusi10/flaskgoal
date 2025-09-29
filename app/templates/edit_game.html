@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Spiel bearbeiten</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.team1.label }} {{ form.team1(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.team2.label }} {{ form.team2(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.date.label }} {{ form.date(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.location.label }} {{ form.location(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

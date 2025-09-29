@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ game.team1 }} vs {{ game.team2 }}</h2>
+<p><strong>Datum:</strong> {{ game.date.strftime('%d.%m.%Y %H:%M') }}</p>
+<p><strong>Ort:</strong> {{ game.location }}</p>
+
+<hr>
+
+<h4>Abgegebene Tipps</h4>
+
+{% if predictions %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Tipp Team 1</th>
+                <th>Tipp Team 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in predictions %}
+                <tr>
+                    <td>{{ p.user.username }}</td>
+                    <td>{{ p.tip_team1 }}</td>
+                    <td>{{ p.tip_team2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Keine Tipps vorhanden.</p>
+{% endif %}
+
+<hr>
+
+<h4>Kommentare</h4>
+<ul class="list-group mb-3">
+    {% for comment in game.comments %}
+        <li class="list-group-item">
+            <strong>{{ comment.user.username }}</strong> am {{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}:<br>
+            {{ comment.content }}
+        </li>
+    {% else %}
+        <li class="list-group-item">Keine Kommentare vorhanden.</li>
+    {% endfor %}
+</ul>
+
+{% if current_user.is_authenticated %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.content.label }}<br>
+            {{ form.content(class="form-control") }}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+{% else %}
+    <p><a href="{{ url_for('routes.login') }}">Logge dich ein</a>, um einen Kommentar zu schreiben.</p>
+{% endif %}
+{% endblock %}

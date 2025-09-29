@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Alle Spiele</h1>
+
+{% if current_user.is_authenticated %}
+    <a class="btn btn-primary mb-3" href="{{ url_for('routes.create_game') }}">Neues Spiel erstellen</a>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Team 1</th>
+            <th>Team 2</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Ort</th>
+            <th>Aktion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td>{{ game.team1 }}</td>
+            <td>{{ game.team2 }}</td>
+            <td>{{ game.date.strftime('%d.%m.%Y') }}</td>  <!-- Nur Datum -->
+            <td>{{ game.date.strftime('%H:%M') }}</td>     <!-- Nur Uhrzeit -->
+            <td>{{ game.location or "—" }}</td>
+            <td>
+                {% if current_user.is_authenticated %}
+                    <a class="btn btn-sm btn-success" href="{{ url_for('routes.tip', game_id=game.id) }}">Tipp abgeben</a>
+                    <a class="btn btn-sm btn-primary" href="{{ url_for('routes.game_detail', game_id=game.id) }}">Details</a>
+
+                {% if current_user.id == game.user_id %}
+                    <a class="btn btn-sm btn-warning" href="{{ url_for('routes.edit_game', game_id=game.id) }}">Bearbeiten</a>
+                {% endif %}
+            {% endif %}
+</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

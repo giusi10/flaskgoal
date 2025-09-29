@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Tipp für {{ game.team1 }} vs {{ game.team2 }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.tip_team1.label }} {{ form.tip_team1(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.tip_team2.label }} {{ form.tip_team2(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

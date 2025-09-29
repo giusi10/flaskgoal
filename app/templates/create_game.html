@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<h2>Neues Spiel erstellen</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.team1.label }} {{ form.team1(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.team2.label }} {{ form.team2(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.location.label }} {{ form.location(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+    {{ form.date.label(class="form-label") }}
+    {{ form.date(class="form-control", placeholder="z. B. 18:30 21.09.2025", pattern="\d{2}:\d{2} \d{2}.\d{2}.\d{4}") }}
+    <div class="form-text">Bitte eingeben im Format <strong>HH:MM TT.MM.JJJJ</strong></div>
+    </div>
+    {{ form.submit(class="btn btn-success") }}
+</form>
+{% endblock %}
